@@ -1,1 +1,110 @@
-{}
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "user@user.com",
+      "password": "12345678",
+      "name": "Admin"
+    },
+    {
+      "email": "john@user.com",
+      "password": "qwerty",
+      "name": "John",
+      "check": true,
+      "id": 2
+    },
+    {
+      "name": "Annie",
+      "password": "123456",
+      "email": "annie@user.com",
+      "id": 3
+    }
+  ],
+  "bill": {
+    "value": 10200,
+    "currency": "EUR"
+  },
+  "currency": {
+    "base": "base",
+    "date": "01.01.2022 12:01",
+    "rates": [
+      {
+        "currency": "EUR",
+        "rate": 1
+      },
+      {
+        "currency": "UAH",
+        "rate": 30.44
+      },
+      {
+        "currency": "USD",
+        "rate": 1.16
+      },
+      {
+        "currency": "BYN",
+        "rate": 2.82
+      }
+    ],
+    "success": true,
+    "timestamp": 1
+  },
+  "categories": [
+    {
+      "id": 1,
+      "name": "Home",
+      "capacity": 15000
+    },
+    {
+      "id": 2,
+      "name": "Food",
+      "capacity": 10000
+    },
+    {
+      "id": 3,
+      "name": "Car",
+      "capacity": 7000
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "type": "income",
+      "amount": 1250,
+      "category": 2,
+      "date": "12.06.2019 19:49:02",
+      "description": "Gave food away"
+    },
+    {
+      "id": 2,
+      "type": "outcome",
+      "amount": 1300,
+      "category": 1,
+      "date": "13.06.2019 19:49:02",
+      "description": "Bought a dishwasher"
+    },
+    {
+      "type": "income",
+      "amount": 1480,
+      "category": 2,
+      "date": "17.06.2019 14:00:48",
+      "id": 3,
+      "description": "Hike to Auchan with marks. Free meal"
+    },
+    {
+      "type": "outcome",
+      "amount": 2470,
+      "category": 2,
+      "date": "17.06.2019 14:00:58",
+      "id": 4,
+      "description": "Purchase for a week"
+    },
+    {
+      "type": "outcome",
+      "amount": 4000,
+      "category": 3,
+      "date": "10.06.2019 14:01:58",
+      "id": 5,
+      "description": "Refueling + maintenance pass"
+    }
+  ]
+}
