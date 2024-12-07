@@ -12,7 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -28,6 +28,7 @@ import { RegistrationForm } from '../../models/form.model';
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    RouterLink,
     MatFormFieldModule,
     MatCheckboxModule,
     MatInputModule,
@@ -75,7 +76,7 @@ export class AuthFormComponent implements OnInit {
   }
 
   navigateToOtherPage() {
-    const targetRoute = this.isSignUp ? '/login' : '/signup';
+    const targetRoute = this.isSignUp ? 'auth/login' : 'auth/signup';
     this.router.navigate([targetRoute]);
   }
 

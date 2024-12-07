@@ -46,9 +46,14 @@
   </button>
   <div class="signup-container">
     <p>{{ linkText }}</p>
-    <button mat-button color="primary" (click)="navigateToOtherPage()">
+
+    <a
+      mat-button
+      color="primary"
+      [routerLink]="isSignUp ? '/auth/login' : '/auth/signup'"
+    >
       {{ isSignUp ? "Sign in" : "Sign up" }}
-    </button>
+    </a>
   </div>
   @if (isLoading) {
   <mat-progress-spinner
