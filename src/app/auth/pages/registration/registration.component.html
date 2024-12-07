@@ -1,0 +1,10 @@
+<app-form
+  class="form-wrapper"
+  title="Registration for access"
+  [serviceError]="serviceError"
+  buttonText="Sign up"
+  linkText="Already have an account?"
+  [isSignUp]="true"
+  [isLoading]="isLoading"
+  (submitForm)="onSignUp($event)"
+></app-form>
