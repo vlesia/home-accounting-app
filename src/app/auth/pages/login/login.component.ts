@@ -33,7 +33,9 @@ export class LoginComponent implements OnDestroy {
         })
       )
       .subscribe({
-        next: () => {
+        next: (userData) => {
+          localStorage.setItem('user', JSON.stringify(userData));
+
           this.router.navigate(['home']);
         },
         error: (err) => {
