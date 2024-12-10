@@ -75,11 +75,6 @@ export class AuthFormComponent implements OnInit {
     }
   }
 
-  navigateToOtherPage() {
-    const targetRoute = this.isSignUp ? 'auth/login' : 'auth/signup';
-    this.router.navigate([targetRoute]);
-  }
-
   getErrorMessage(controlName: string): string | null {
     const control = this.form.get(controlName);
 
