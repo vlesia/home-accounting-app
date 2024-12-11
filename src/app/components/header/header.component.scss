@@ -1,8 +1,17 @@
+@use '../../../styles/theme.scss' as theme;
+
 .spacer {
   flex: 1 1 auto;
 }
 
-button {
+.icon-button {
   margin-right: 10px;
+  background-color: theme.$primary-color;
+  border: none;
   cursor: pointer;
 }
+
+mat-icon {
+  color: theme.$primary-contrast-color;
+}
+
