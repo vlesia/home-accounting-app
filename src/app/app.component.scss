@@ -1,0 +1,26 @@
+@use '../styles/theme.scss' as theme;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  flex: 0 0 auto;
+}
+
+.container {
+  flex: 1 0 auto;
+
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+mat-sidenav {
+  width: 300px;
+  background-color: theme.$primary-color-light;
+}
+
