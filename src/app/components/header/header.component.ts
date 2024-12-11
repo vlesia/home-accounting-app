@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,10 @@ import { MatMenuModule } from '@angular/material/menu';
 export class HeaderComponent {
   @Input() sidenav!: MatSidenav;
 
+  private router = inject(Router);
+
   logoutUser() {
     localStorage.removeItem('user');
+    this.router.navigate(['auth/login']);
   }
 }
