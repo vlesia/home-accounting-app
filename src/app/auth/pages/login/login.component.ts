@@ -2,14 +2,14 @@ import { Component, inject, OnDestroy } from '@angular/core';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { AuthComponent } from '../../auth.component';
+import { AuthFormComponent } from '../../shared/auth-form/auth-form.component';
 import { AuthService } from '../../services/auth.service';
 import { LoginForm } from '../../models/form.model';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [AuthComponent],
+  imports: [AuthFormComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
