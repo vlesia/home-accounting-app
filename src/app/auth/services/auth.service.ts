@@ -9,13 +9,11 @@ import { LoginForm, RegistrationForm } from '../models/form.model';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/users';
-
   private httpClient = inject(HttpClient);
 
   loginUser(formData: LoginForm): Observable<User> {
     return this.findUserByEmail(formData.email).pipe(
-      switchMap(user => {
+      switchMap((user) => {
         if (!user) {
           return throwError(() => new Error('This user does not exist'));
         }
@@ -46,17 +44,17 @@ export class AuthService {
       name: formData.name,
     };
 
-    return this.httpClient.post<User>(this.apiUrl, newUser);
+    return this.httpClient.post<User>('/users', newUser);
   }
 
   private findUserByEmail(email: string): Observable<User | undefined> {
-    return this.httpClient.get<User[]>(this.apiUrl).pipe(
+    return this.httpClient.get<User[]>('/users').pipe(
       catchError((error) => {
         return throwError(
           () => new Error('Something went wrong. Please try again later.')
         );
       }),
-      map(users => users.find(user => user.email === email)),
+      map((users) => users.find((user) => user.email === email))
     );
   }
 }
