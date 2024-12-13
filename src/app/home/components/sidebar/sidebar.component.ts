@@ -4,7 +4,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 
-import { User } from '../../models/user.model';
+import { User } from '../../../models/user.model';
+
+
 
 @Component({
   selector: 'app-sidebar',
