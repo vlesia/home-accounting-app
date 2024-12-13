@@ -1,5 +1,5 @@
 <mat-sidenav-container class="container">
-  <mat-sidenav #sidenav mode="side" opened>
+  <mat-sidenav #sidenav [mode]="tabletQuery.matches ? 'over' : 'side'" opened>
     <app-sidebar></app-sidebar>
   </mat-sidenav>
   <div class="content"></div>
