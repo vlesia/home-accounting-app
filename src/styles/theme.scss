@@ -1,6 +1,7 @@
 @use "@angular/material" as mat;
 
-$primary-color-light: mat.get-color-from-palette(mat.$indigo-palette, 50);
+$primary-color-50: mat.get-color-from-palette(mat.$indigo-palette, 50);
+$primary-color-100: mat.get-color-from-palette(mat.$indigo-palette, 100);
 $primary-color: mat.get-color-from-palette(mat.$indigo-palette, 500);
 $primary-contrast-color: mat.get-contrast-color-from-palette(
   mat.$indigo-palette,

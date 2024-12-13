@@ -6,8 +6,6 @@ import { MatListModule } from '@angular/material/list';
 
 import { User } from '../../../models/user.model';
 
-
-
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -23,8 +21,10 @@ import { User } from '../../../models/user.model';
 })
 export class SidebarComponent implements OnInit {
   user?: User;
+
   ngOnInit(): void {
     const userData = localStorage.getItem('user');
+
     if (userData) {
       this.user = JSON.parse(userData);
     }

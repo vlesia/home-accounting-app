@@ -1,4 +1,4 @@
-@use '../../../../styles/theme.scss' as theme;
+@use "../../../../styles/theme.scss" as theme;
 
 .user-info {
   display: flex;
@@ -7,40 +7,40 @@
   gap: 1rem;
   padding: 1rem;
   margin-bottom: 1rem;
-}
 
-.user-info .avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background-color: #ddd;
-  object-fit: cover;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #ddd;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-.user-info h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #333;
-}
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
 
-.user-info p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #666;
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+  }
 }
 
 mat-nav-list {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid rgb(217, 214, 214);
-  border-bottom: 1px solid rgb(217, 214, 214);
-}
+  border-top: 1px solid theme.$primary-contrast-color;
+  border-bottom: 1px solid theme.$primary-contrast-color;
 
-mat-nav-list h3 {
-  padding: 0.75rem 1rem;
-  margin: 0;
+  h3 {
+    padding: 0.75rem 1rem;
+    margin: 0;
+  }
 }
 
 .active-link {
