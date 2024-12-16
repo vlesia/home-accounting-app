@@ -1,25 +1,25 @@
 import { Routes } from '@angular/router';
 
-import { authRedirectGuard } from './guards/auth-redirect.guard';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { authGuard } from './guards/auth.guard';
+import { LayoutComponent } from './layout/layout.component';
+import { BillingComponent } from './pages/billing/billing.component';
+import { HistoryComponent } from './pages/history/history.component';
+import { RecordComponent } from './pages/record/record.component';
 
 export const routes: Routes = [
- {
+  {
     path: '',
-    component: AppComponent,
-    canActivate: [authRedirectGuard],
-    pathMatch: 'full',
+    component: LayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      { path: 'billing', component: BillingComponent },
+      { path: 'history', component: HistoryComponent },
+      { path: 'record', component: RecordComponent },
+      { path: '', redirectTo: 'billing', pathMatch: 'full' },
+    ],
   },
   {
     path: 'auth',
-    loadChildren: () =>
-      import('./auth/auth.routes').then((m) => m.authRoutes),
+    loadChildren: () => import('./auth/auth.routes').then((m) => m.authRoutes),
   },
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [authGuard],
-  }
 ];

@@ -36,7 +36,7 @@ export class LoginComponent implements OnDestroy {
         next: (userData) => {
           localStorage.setItem('user', JSON.stringify(userData));
 
-          this.router.navigate(['home']);
+          this.router.navigate(['']);
         },
         error: (err) => {
           this.serviceError = err.message;
