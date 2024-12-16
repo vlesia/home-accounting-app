@@ -11,10 +11,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MediaMatcher } from '@angular/cdk/layout';
 
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-layout',
   standalone: true,
   imports: [
     MatToolbarModule,
@@ -23,10 +23,10 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     MatGridListModule,
     SidebarComponent,
   ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  templateUrl: './layout.component.html',
+  styleUrl: './layout.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class LayoutComponent implements OnInit {
   tabletQuery!: MediaQueryList;
   private _mobileQueryListener!: () => void;
 
