@@ -1,0 +1,36 @@
+@use '../../../styles/theme.scss' as theme;
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.icon-button {
+  background-color: theme.$primary-color;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-button {
+  margin-right: 10px;
+}
+
+mat-icon {
+  color: theme.$primary-contrast-color;
+}
+
+.custom-icon {
+  font-size: 10px;
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .custom-icon {
+    display: none;
+  }
+  span {
+    font-size: 1rem;
+  }
+  mat-toolbar {
+    padding: 0.5rem;
+  }
+}

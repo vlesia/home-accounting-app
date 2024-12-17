@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 
 import { authGuard } from './guards/auth.guard';
-import { LayoutComponent } from './layout/layout.component';
 import { BillingComponent } from './pages/billing/billing.component';
 import { HistoryComponent } from './pages/history/history.component';
 import { RecordComponent } from './pages/record/record.component';
@@ -9,7 +8,10 @@ import { RecordComponent } from './pages/record/record.component';
 export const routes: Routes = [
   {
     path: '',
-    component: LayoutComponent,
+    loadComponent: () =>
+      import('./layout/layout.component').then(
+        (c) => c.LayoutComponent
+      ),
     canActivate: [authGuard],
     children: [
       { path: 'billing', component: BillingComponent },
