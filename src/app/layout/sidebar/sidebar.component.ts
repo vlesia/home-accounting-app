@@ -20,9 +20,9 @@ import { User } from '../../models/user.model';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit {
-  user?: User;
+  public user?: User;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const userData = localStorage.getItem('user');
 
     if (userData) {
