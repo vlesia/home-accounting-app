@@ -1,0 +1,18 @@
+<div class="user-info">
+  <h3>{{ user?.name }}</h3>
+  <p>{{ user?.email }}</p>
+  <img src="avatar.jpg" alt="User Avatar" class="avatar" />
+</div>
+
+<mat-nav-list>
+  <h3>Pages</h3>
+  <a mat-list-item routerLink="billing" routerLinkActive="active-link"
+    >Billing page</a
+  >
+  <a mat-list-item routerLink="history" routerLinkActive="active-link"
+    >History page</a
+  >
+  <a mat-list-item routerLink="record" routerLinkActive="active-link"
+    >Record page</a
+  >
+</mat-nav-list>
