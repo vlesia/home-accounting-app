@@ -23,7 +23,8 @@
   "bill": [
     {
       "value": 10200,
-      "currency": "EUR"
+      "currency": "EUR",
+      "userId": 2
     }
   ],
   "currency": {
