@@ -10,11 +10,8 @@ export interface Rate {
 }
 
 export interface ExchangeRates {
-  base: string;
   date: string;
   rates: Rate[];
-  success: boolean;
-  timestamp: number;
 }
 
 export interface UserBalance {

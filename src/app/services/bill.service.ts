@@ -8,27 +8,24 @@ import {
   Rate,
   UserBill,
 } from '../models/bill.model';
+import { UserService } from './user.service';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BillService {
+  apiUrl = 'https://open.er-api.com/v6/latest/USD';
+
+  private userService = inject(UserService);
   private http = inject(HttpClient);
 
-  getExchangeRates(): Observable<ExchangeRates> {
-    return this.http.get<ExchangeRates>('/currency');
-  }
+  public user: User | null = this.userService.getUser();
 
-  getUserAccount(userId: number): Observable<UserBill[]> {
-    return this.http.get<UserBill[]>(`/bill?userId=${userId}`);
-  }
-
-  getCalculatedAccountValue(
-    userId: number
-  ): Observable<CalculatedAccountValue> {
+  public getCalculatedAccountValue(): Observable<CalculatedAccountValue> {
     return forkJoin({
       rates: this.getExchangeRates(),
-      bill: this.getUserAccount(userId),
+      bill: this.getUserAccount(),
     }).pipe(
       map(({ rates, bill }) => {
         const userBalances = rates.rates.map((rate: Rate) => ({
@@ -53,5 +50,21 @@ export class BillService {
         );
       })
     );
+  }
+
+  private getExchangeRates(): Observable<ExchangeRates> {
+    return this.http.get<any>(this.apiUrl).pipe(
+      map(({ time_last_update_utc: date, rates }) => ({
+        date,
+        rates: ['USD', 'EUR', 'UAH'].map((currency) => ({
+          currency,
+          rate: rates[currency],
+        })),
+      }))
+    );
+  }
+
+  private getUserAccount(): Observable<UserBill[]> {
+    return this.http.get<UserBill[]>(`/bill?userId=${this.user!.id}`);
   }
 }
