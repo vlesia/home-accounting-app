@@ -1,4 +1,4 @@
-@use '../../styles/theme.scss' as theme;
+@use "../../styles/theme.scss" as theme;
 
 :host {
   display: flex;
@@ -23,11 +23,4 @@ header {
   padding: 1.5rem;
   height: 100%;
   background-color: theme.$primary-color-50;
-
-  .title {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid theme.$primary-color-100;
-  }
 }

@@ -1,4 +1,16 @@
-@use '../../../styles/theme.scss' as theme;
+@use "../../../styles/theme.scss" as theme;
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid theme.$primary-color-100;
+
+  .icon-button {
+    border: none;
+    background: theme.$primary-color-50;
+  }
+}
 
 .table-container {
   display: grid;

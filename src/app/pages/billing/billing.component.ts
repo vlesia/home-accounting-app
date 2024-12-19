@@ -7,7 +7,6 @@ import { finalize } from 'rxjs';
 
 import { BillService } from '../../services/bill.service';
 import { ExchangeData, UserBalance } from '../../models/bill.model';
-import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-billing',
@@ -23,27 +22,29 @@ import { UserService } from '../../services/user.service';
   styleUrl: './billing.component.scss',
 })
 export class BillingComponent implements OnInit {
-  exchangeData: ExchangeData[] = [];
-  userBalances: UserBalance[] = [];
-  userBalanceColumns: string[] = ['currency', 'amount'];
-  exchangeDataColumns: string[] = ['currency', 'rate', 'date'];
-  isLoading = false;
-  error = '';
+  public exchangeData: ExchangeData[] = [];
+  public userBalances: UserBalance[] = [];
+  public userBalanceColumns: string[] = ['currency', 'amount'];
+  public exchangeDataColumns: string[] = ['currency', 'rate', 'date'];
+  public isLoading = false;
+  public error = '';
 
   private billService = inject(BillService);
   private destroyRef = inject(DestroyRef);
-  private userService = inject(UserService);
 
-  ngOnInit(): void {
-    const user = this.userService.getUser();
+  public ngOnInit(): void {
+    this.loadAccountData();
+  }
 
-    if (!user) {
-      return;
-    }
+  public updateAccountData(): void {
+    this.loadAccountData();
+  }
 
+  private loadAccountData(): void {
     this.isLoading = true;
+
     const subscription = this.billService
-      .getCalculatedAccountValue(user.id)
+      .getCalculatedAccountValue()
       .pipe(
         finalize(() => {
           this.isLoading = false;
