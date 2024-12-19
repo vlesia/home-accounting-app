@@ -3,6 +3,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { RouterOutlet } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
@@ -11,12 +13,14 @@ import { HeaderComponent } from './header/header.component';
   selector: 'app-layout',
   standalone: true,
   imports: [
+    RouterOutlet,
     MatToolbarModule,
     MatSidenavModule,
     MatButtonModule,
     MatGridListModule,
-    SidebarComponent,
+    MatIconModule,
     HeaderComponent,
+    SidebarComponent,
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
