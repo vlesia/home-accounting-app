@@ -2,21 +2,22 @@ export interface Category {
   id: string;
   name: string;
   capacity: number;
-  userId?: number;
+  userId: number;
 }
+
+export type TransactionType = 'income' | 'outcome';
 
 export interface Event {
   id: string;
-  type: 'income' | 'outcome';
+  type: TransactionType;
   amount: number;
   category: number;
   date: string;
   description: string;
-  userId?: number;
+  userId: number;
 }
 
 export interface UserExpenses {
-  index: number;
   amount: number;
   date: string;
   category: string;
