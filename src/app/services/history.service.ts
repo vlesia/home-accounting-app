@@ -3,35 +3,39 @@ import { inject, Injectable } from '@angular/core';
 import { catchError, forkJoin, map, Observable, throwError } from 'rxjs';
 
 import { Category, Event, UserExpenses } from '../models/history.model';
+import { UserService } from './user.service';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HistoryService {
   private http = inject(HttpClient);
+  private userService = inject(UserService);
 
-  public getCategories(userId: number): Observable<Category[]> {
-    return this.http.get<Category[]>(`/categories?userId=${userId}`);
+  public user: User | null = this.userService.getUser();
+
+  public getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`/categories?userId=${this.user!.id}`);
   }
 
-  public getEvents(userId: number): Observable<Event[]> {
-    return this.http.get<Event[]>(`/events?userId=${userId}`);
+  public getEvents(): Observable<Event[]> {
+    return this.http.get<Event[]>(`/events?userId=${this.user!.id}`);
   }
 
-  public getCombinedData(userId: number): Observable<UserExpenses[]> {
+  public getCombinedData(): Observable<UserExpenses[]> {
     return forkJoin({
-      categories: this.getCategories(userId),
-      events: this.getEvents(userId),
+      categories: this.getCategories(),
+      events: this.getEvents(),
     }).pipe(
       map(({ categories, events }) => {
-        const combinedData = events.map((event, index) => {
+        const combinedData = events.map((event) => {
           const category = categories.find((cat) => +cat.id === event.category);
           const { id, userId, ...eventInfo } = event;
           return {
-            index: index + 1,
             amount: event.amount,
             date: event.date,
-            category: category ? category.name : 'Unknown',
+            category: category!.name,
             type: event.type,
             eventInfo,
           };
