@@ -1,0 +1,6 @@
+@use '../../../styles/theme.scss' as theme;
+
+.title {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid theme.$primary-color-100;
+}
