@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
 
-export const authGuard: CanActivateFn = (route, state): boolean => {
+export const authGuard: CanActivateFn = (route, state): boolean | UrlTree => {
   const router = inject(Router);
   const isLoggedIn = localStorage.getItem('user');
 
@@ -9,6 +9,5 @@ export const authGuard: CanActivateFn = (route, state): boolean => {
     return true;
   }
 
-  router.navigate(['/auth/login']);
-  return false;
+  return router.createUrlTree(['/auth/login']);
 };
