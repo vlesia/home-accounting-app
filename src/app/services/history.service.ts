@@ -13,7 +13,9 @@ export class HistoryService {
   private http = inject(HttpClient);
   private userService = inject(UserService);
 
-  public user: User | null = this.userService.getUser();
+  public get user(): User | null {
+    return this.userService.getUser();
+  }
 
   public getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`/categories?userId=${this.user!.id}`);
@@ -31,13 +33,12 @@ export class HistoryService {
       map(({ categories, events }) => {
         const combinedData = events.map((event) => {
           const category = categories.find((cat) => +cat.id === event.category);
-          const { id, userId, ...eventInfo } = event;
           return {
+            id: event.id,
             amount: event.amount,
             date: event.date,
             category: category!.name,
             type: event.type,
-            eventInfo,
           };
         });
 
