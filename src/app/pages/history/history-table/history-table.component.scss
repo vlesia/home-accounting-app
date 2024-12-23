@@ -1,7 +1,27 @@
-.type-outcome {
-  color: #3f51b5;
+@use "../../../../styles/theme.scss" as theme;
+
+.filter-container {
+  width: 100%;
+  background-color: theme.$primary-color-50;
+  border: none;
 }
 
-.type-income {
-  color: #f44336;
+.container {
+  background-color: theme.$primary-contrast-color;
+
+  .type-outcome {
+    color: #f44336;
+  }
+
+  .type-income {
+    color: #3f51b5;
+  }
+
+  .button {
+    margin: 20px;
+  }
+
+  mat-paginator {
+    margin-top: 20px;
+  }
 }

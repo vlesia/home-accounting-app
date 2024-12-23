@@ -26,7 +26,7 @@ export interface UserExpenses {
 }
 
 export interface EventInfo {
-  type: 'income' | 'outcome';
+  type: TransactionType;
   amount: number;
   category: number;
   date: string;
