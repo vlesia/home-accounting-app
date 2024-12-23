@@ -36,11 +36,7 @@ export class BillingComponent implements OnInit {
     this.loadAccountData();
   }
 
-  public updateAccountData(): void {
-    this.loadAccountData();
-  }
-
-  private loadAccountData(): void {
+  public loadAccountData(): void {
     this.isLoading = true;
 
     const subscription = this.billService

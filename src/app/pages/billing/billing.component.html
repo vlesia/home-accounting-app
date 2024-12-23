@@ -1,18 +1,19 @@
 <div class="title">
   <h2>Billing Page</h2>
-  <button class="icon-button" mat-icon-button (click)="updateAccountData()">
+  <button class="icon-button" mat-icon-button (click)="loadAccountData()">
     <mat-icon>restart_alt</mat-icon>
   </button>
 </div>
 
+@if (isLoading) {
+<p>Loading....</p>
+}
+@if(error && !isLoading) {
+<p>{{ error }}</p>
+}
+@if (!isLoading && !error) {
+
 <div class="table-container">
-  @if (isLoading) {
-  <p>Loading....</p>
-  }
-  @if(error) {
-  <p>{{ error }}</p>
-  }
-  @if (!isLoading && !error) {
 
   <table mat-table [dataSource]="userBalances" class="table">
     <caption class="mat-title">
@@ -60,5 +61,5 @@
     <tr mat-header-row *matHeaderRowDef="exchangeDataColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: exchangeDataColumns"></tr>
   </table>
-  }
 </div>
+}

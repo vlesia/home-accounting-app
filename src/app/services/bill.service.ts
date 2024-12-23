@@ -4,6 +4,7 @@ import { catchError, forkJoin, map, Observable, throwError } from 'rxjs';
 
 import {
   CalculatedAccountValue,
+  ExchangeRateResponse,
   ExchangeRates,
   Rate,
   UserBill,
@@ -15,12 +16,14 @@ import { User } from '../models/user.model';
   providedIn: 'root',
 })
 export class BillService {
-  apiUrl = 'https://open.er-api.com/v6/latest/USD';
+  public apiUrl = 'https://open.er-api.com/v6/latest/USD';
 
   private userService = inject(UserService);
   private http = inject(HttpClient);
 
-  public user: User | null = this.userService.getUser();
+  public get user(): User | null {
+    return this.userService.getUser();
+  }
 
   public getCalculatedAccountValue(): Observable<CalculatedAccountValue> {
     return forkJoin({
@@ -53,7 +56,7 @@ export class BillService {
   }
 
   private getExchangeRates(): Observable<ExchangeRates> {
-    return this.http.get<any>(this.apiUrl).pipe(
+    return this.http.get<ExchangeRateResponse>(this.apiUrl).pipe(
       map(({ time_last_update_utc: date, rates }) => ({
         date,
         rates: ['USD', 'EUR', 'UAH'].map((currency) => ({
