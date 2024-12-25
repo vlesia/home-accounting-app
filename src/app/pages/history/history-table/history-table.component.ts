@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,7 +21,7 @@ import { HistoryService } from '../../../services/history.service';
   templateUrl: './history-table.component.html',
   styleUrl: './history-table.component.scss',
 })
-export class HistoryTableComponent {
+export class HistoryTableComponent implements OnInit {
   public tableColumns: string[] = [
     'index',
     'amount',
