@@ -1,10 +1,13 @@
 <div class="title">
   <h2>Record page</h2>
 </div>
-
 <div class="button-container">
-  <button mat-raised-button color="primary" class="left-button">Add event</button>
-  <button mat-raised-button color="primary" class="right-button">Add category</button>
+  <button mat-raised-button color="primary" class="left-button" (click)="openFormEvent()">
+    Add event
+  </button>
+  <button mat-raised-button color="primary" class="right-button">
+    Add category
+  </button>
 </div>
 
 <table mat-table [dataSource]="userRecords" class="mat-elevation-z8">

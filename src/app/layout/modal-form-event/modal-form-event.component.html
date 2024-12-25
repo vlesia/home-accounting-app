@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Add event</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="fill">
+      <mat-label>Select category</mat-label>
+      <mat-select formControlName="category">
+        @for (category of userCategories; track category.id) {
+        <mat-option [value]="category.id">{{ category.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <div class="select-container">
+      <mat-label>Select type</mat-label>
+      <mat-radio-group formControlName="type" aria-label="Select an option">
+        <mat-radio-button value="income">Income</mat-radio-button>
+        <mat-radio-button value="outcome">Outcome</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Enter amount</mat-label>
+      <input matInput formControlName="amount" />
+      @if (form.get('amount')?.hasError('pattern') ) {
+      <mat-error>
+        {{ "Only numbers are allowed" }}
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Enter description</mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!form.valid"
+    [mat-dialog-close]="form.value"
+  >
+    Add
+  </button>
+  <button mat-button (click)="onClose()">Close</button>
+</mat-dialog-actions>
