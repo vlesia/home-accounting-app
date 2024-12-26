@@ -63,6 +63,11 @@
       "id": 3,
       "name": "Car",
       "capacity": 7000
+    },
+    {
+      "id": "eee3",
+      "name": "sport",
+      "capacity": 8000
     }
   ],
   "events": [
