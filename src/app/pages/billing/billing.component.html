@@ -1,20 +1,17 @@
 <div class="title">
   <h2>Billing Page</h2>
-  <button class="icon-button" mat-icon-button (click)="loadAccountData()">
+  <button mat-icon-button (click)="loadAccountData()">
     <mat-icon>restart_alt</mat-icon>
   </button>
 </div>
 
 @if (isLoading) {
 <p>Loading....</p>
-}
-@if(error && !isLoading) {
+} @else if (error && !isLoading) {
 <p>{{ error }}</p>
-}
-@if (!isLoading && !error) {
+} @else {
 
 <div class="table-container">
-
   <table mat-table [dataSource]="userBalances" class="table">
     <caption class="mat-title">
       Bill
