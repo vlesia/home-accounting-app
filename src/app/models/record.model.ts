@@ -1,4 +1,4 @@
 export interface FormCategory {
-  category: string;
-  limit: string;
+  name: string;
+  capacity: string;
 }

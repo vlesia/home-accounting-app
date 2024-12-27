@@ -15,12 +15,11 @@ export class RecordService {
   //   return this.userService.getUser();
   // }
 
-  public saveCategory(formCategory: FormCategory): Observable<any> { //Category
-    console.log(formCategory);
-
+  public saveCategory(formCategory: FormCategory): Observable<any> {
+    //Category
     const category = {
-      name: formCategory.category,
-      capacity: +formCategory.limit,
+      name: formCategory.name,
+      capacity: +formCategory.capacity,
       //userId: this.user.id,
     };
     return this.http
@@ -29,6 +28,22 @@ export class RecordService {
         catchError(() =>
           throwError(
             () => new Error('Unable to save category. Please try again later.')
+          )
+        )
+      );
+  }
+
+  public updateCategory(formCategory: FormCategory, categoryId: string) {
+    const category = {
+      name: formCategory.name,
+      capacity: +formCategory.capacity,
+    };
+    return this.http
+      .patch(`/categories/${categoryId}`, category)
+      .pipe(
+        catchError(() =>
+          throwError(
+            () => new Error('Unable to update category. Please try again later.')
           )
         )
       );

@@ -2,7 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 import {
+  MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
@@ -27,6 +29,7 @@ import {
     MatDialogClose,
     MatDialogContent,
     MatDialogTitle,
+    MatSelectModule,
     ReactiveFormsModule,
   ],
   templateUrl: './modal-form-category.component.html',
@@ -34,15 +37,35 @@ import {
 })
 export class ModalFormCategoryComponent implements OnInit {
   public form!: FormGroup;
+  public showSelector = false;
+  public categories: { id: string; name: string; capacity: number }[] = []; //Category[]
+  public isSelected = false;
+  public title = '';
 
   private dialogRef = inject(MatDialogRef<ModalFormCategoryComponent>);
   private fb = inject(FormBuilder);
+  private data = inject(MAT_DIALOG_DATA);
 
   public ngOnInit(): void {
+    this.showSelector = this.data.showSelector;
+    this.categories = this.data.categories;
+    this.title = this.data.title;
+
     this.form = this.fb.group({
-      category: ['', Validators.required],
-      limit: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      name: ['', Validators.required],
+      capacity: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
     });
+
+    if (this.showSelector) {
+      this.form.addControl(
+        'category',
+        this.fb.control(this.data.category.id || '', Validators.required)
+      );
+    }
+
+    if (this.data.category) {
+      this.form.patchValue(this.data.category);
+    }
   }
 
   public onClose(): void {
