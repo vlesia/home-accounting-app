@@ -1,7 +1,11 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { Subject, takeUntil } from 'rxjs';
+
+import { HistoryService } from '../../services/history.service';
+import { Category } from '../../models/history.model';
 
 @Component({
   selector: 'app-record',
@@ -10,18 +14,24 @@ import { MatTableModule } from '@angular/material/table';
   templateUrl: './record.component.html',
   styleUrl: './record.component.scss',
 })
-export class RecordComponent implements OnInit {
+export class RecordComponent implements OnInit, OnDestroy {
   public tableColumns: string[] = ['index', 'category', 'limit', 'actions'];
-  public userCategories = []; //Category
+  public userCategories: Category[] = [];
+  private destroy$ = new Subject<void>();
 
-  //private historyService = inject(HistoryService);
-  private destroyRef = inject(DestroyRef);
+  private historyService = inject(HistoryService);
 
-  ngOnInit(): void {
-    // const subscription = this.historyService.getCategories().subscribe({
-    //   next: (categories) => (this.userCategories = categories),
-    // });
+  public ngOnInit(): void {
+    this.historyService
+      .getCategories()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (categories) => (this.userCategories = categories),
+      });
+  }
 
-    // this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  public ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
