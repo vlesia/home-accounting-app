@@ -34,3 +34,8 @@ export interface EventDetails {
   description: string;
   userId: number;
 }
+
+export interface dataChart {
+  name: string;
+  y: number;
+}
