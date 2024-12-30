@@ -32,3 +32,8 @@ export interface EventInfo {
   date: string;
   description: string;
 }
+
+export interface dataChart {
+  name: string;
+  y: number;
+}
