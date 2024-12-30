@@ -1,4 +1,4 @@
-@use '../../styles/theme.scss' as theme;
+@use "../../styles/theme.scss" as theme;
 
 :host {
   display: flex;
@@ -12,15 +12,15 @@ header {
 
 .container {
   flex: 1 0 auto;
-
 }
 
 .content {
+  height: 100%;
   padding: 1.5rem;
+  background-color: theme.$primary-color-50;
 }
 
 mat-sidenav {
   width: 300px;
   background-color: theme.$primary-color-100;
 }
-
