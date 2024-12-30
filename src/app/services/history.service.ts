@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, forkJoin, map, Observable, throwError } from 'rxjs';
 
-
 import {
   Category,
   dataChart,
@@ -39,13 +38,12 @@ export class HistoryService {
       map(({ categories, events }) => {
         const combinedData = events.map((event) => {
           const category = categories.find((cat) => +cat.id === event.category);
-          const { id, userId, ...eventInfo } = event;
           return {
+            id: event.id,
             amount: event.amount,
             date: event.date,
             category: category!.name,
             type: event.type,
-            eventInfo,
           };
         });
 
@@ -87,3 +85,12 @@ export class HistoryService {
     );
   }
 }
+
+
+
+
+
+
+
+
+

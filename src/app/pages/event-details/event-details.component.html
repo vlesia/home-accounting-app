@@ -1,0 +1,23 @@
+<div class="title">
+  <button mat-icon-button class="icon-button" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h3>Record page № {{ eventIndex }}</h3>
+</div>
+<div class="card" [ngClass]="eventDetails?.type">
+  <h3 class="card-title">
+    {{ eventDetails?.type === "outcome" ? "Outcome" : "Income" }}
+  </h3>
+  <ul class="card-details">
+    <li>
+      <strong>Amount: </strong> <span>{{ eventDetails?.amount }} EUR</span>
+    </li>
+    <li>
+      <strong>Category: </strong> <span>{{ eventDetails?.category }}</span>
+    </li>
+    <li>
+      <strong>Comment: </strong> <span>{{ eventDetails?.description }}</span>
+    </li>
+  </ul>
+  <p class="card-date">{{ eventDetails?.date }}</p>
+</div>

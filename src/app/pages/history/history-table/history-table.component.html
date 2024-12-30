@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="userExpenses" >
+<table mat-table [dataSource]="userExpenses" class="mat-elevation-z8">
   <ng-container matColumnDef="index">
     <th mat-header-cell *matHeaderCellDef>#</th>
     <td mat-cell *matCellDef="let element; let i = index">
@@ -43,8 +43,10 @@
 
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-stroked-button>Open</button>
+    <td mat-cell *matCellDef="let element; let i = index">
+      <button mat-stroked-button (click)="openDetails(element.id, i + 1)">
+        Open
+      </button>
     </td>
   </ng-container>
 

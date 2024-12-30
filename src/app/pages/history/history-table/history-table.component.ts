@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { UserExpenses } from '../../../models/history.model';
 import { HistoryService } from '../../../services/history.service';
@@ -35,17 +36,22 @@ export class HistoryTableComponent implements OnInit {
 
   private historyService = inject(HistoryService);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
   public ngOnInit(): void {
-    const subscription = this.historyService
-      .getCombinedData()
-      .subscribe({
-        next: (val) => {
-          this.userExpenses = val;
-        },
-        error: (err) => (this.error = err.message),
-      });
+    const subscription = this.historyService.getCombinedData().subscribe({
+      next: (val) => {
+        this.userExpenses = val;
+      },
+      error: (err) => (this.error = err.message),
+    });
 
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
+
+  public openDetails(eventId: string, index: number) {
+    this.router.navigate(['/event-details', eventId], {
+      state: { eventIndex: index },
+    });
   }
 }

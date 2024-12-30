@@ -18,19 +18,21 @@ export interface Event {
 }
 
 export interface UserExpenses {
+  id: string,
   amount: number;
   date: string;
   category: string;
   type: string;
-  eventInfo: EventInfo;
 }
 
-export interface EventInfo {
+export interface EventDetails {
+  id: string;
   type: TransactionType;
   amount: number;
-  category: number;
+  category: string;
   date: string;
   description: string;
+  userId: number;
 }
 
 export interface dataChart {
