@@ -18,11 +18,8 @@ import {
   Validators,
 } from '@angular/forms';
 
-interface Category {
-  id: string;
-  name: string;
-  capacity: number;
-}
+import { Category } from '../../models/history.model';
+import { HistoryService } from './../../services/history.service';
 
 @Component({
   selector: 'app-modal-form-event',
@@ -45,33 +42,17 @@ interface Category {
 })
 export class ModalFormEventComponent implements OnInit {
   public form!: FormGroup;
-  public userCategories: Category[] = [  //Category
-    {
-      id: '1',
-      name: 'Home',
-      capacity: 15000,
-    },
-    {
-      id: '2',
-      name: 'Food',
-      capacity: 10000,
-    },
-    {
-      id: '3',
-      name: 'Car',
-      capacity: 7000,
-    },
-  ];
+  public userCategories: Category[] = [];
 
   private dialogRef = inject(MatDialogRef<ModalFormEventComponent>);
   private fb = inject(FormBuilder);
   private destroyRef = inject(DestroyRef);
-  //private historyService = inject(this.historyService);
+  private historyService = inject(HistoryService);
 
-  ngOnInit() {
-    // const subscriptions = this.historyService.getCategory().subscribe({
-    //   next: (val) => (this.userCategories = val),
-    // });
+  public ngOnInit() {
+    const subscriptions = this.historyService.getCategories().subscribe({
+      next: (val) => (this.userCategories = val),
+    });
     this.form = this.fb.group({
       category: ['', Validators.required],
       type: ['', Validators.required],
@@ -79,10 +60,10 @@ export class ModalFormEventComponent implements OnInit {
       description: ['', Validators.required],
     });
 
-    //this.destroyRef.onDestroy(() => subscriptions.unsubscribe())
+    this.destroyRef.onDestroy(() => subscriptions.unsubscribe());
   }
 
-  onClose(): void {
+  public onClose(): void {
     this.dialogRef.close(null);
   }
 }

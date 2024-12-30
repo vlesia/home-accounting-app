@@ -1,4 +1,4 @@
-export type TransactionType = 'income' | 'outcome';
+import { TransactionType } from "./history.model";
 
 export interface FormEvent {
   category: number;

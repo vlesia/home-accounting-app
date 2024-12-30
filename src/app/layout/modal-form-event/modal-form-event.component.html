@@ -33,14 +33,14 @@
     </mat-form-field>
   </form>
 </mat-dialog-content>
-<mat-dialog-actions>
+<mat-dialog-actions align="end">
   <button
     mat-raised-button
     color="primary"
-    [disabled]="!form.valid"
+    [disabled]="form.invalid"
     [mat-dialog-close]="form.value"
   >
     Add
   </button>
-  <button mat-button (click)="onClose()">Close</button>
+  <button mat-button (click)="onClose()">Cancel</button>
 </mat-dialog-actions>
