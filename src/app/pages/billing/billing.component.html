@@ -6,57 +6,56 @@
 </div>
 
 @if (isLoading) {
-<p>Loading....</p>
+  <p>Loading....</p>
 } @else if (error && !isLoading) {
-<p>{{ error }}</p>
+  <p>{{ error }}</p>
 } @else {
+  <div class="table-container">
+    <table mat-table [dataSource]="userBalances" class="table">
+      <caption class="mat-title">
+        Bill
+      </caption>
 
-<div class="table-container">
-  <table mat-table [dataSource]="userBalances" class="table">
-    <caption class="mat-title">
-      Bill
-    </caption>
+      <ng-container matColumnDef="currency">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">{{ element.currency }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="currency">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">{{ element.currency }}</td>
-    </ng-container>
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.amount | number: "1.2-2" }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.amount | number : "1.2-2" }}
-      </td>
-    </ng-container>
+      <tr mat-header-row *matHeaderRowDef="userBalanceColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: userBalanceColumns"></tr>
+    </table>
 
-    <tr mat-header-row *matHeaderRowDef="userBalanceColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: userBalanceColumns"></tr>
-  </table>
+    <table mat-table [dataSource]="exchangeData">
+      <caption>
+        Rate
+      </caption>
+      <ng-container matColumnDef="currency">
+        <th mat-header-cell *matHeaderCellDef>Currency</th>
+        <td mat-cell *matCellDef="let element">{{ element.currency }}</td>
+      </ng-container>
 
-  <table mat-table [dataSource]="exchangeData">
-    <caption>
-      Rate
-    </caption>
-    <ng-container matColumnDef="currency">
-      <th mat-header-cell *matHeaderCellDef>Currency</th>
-      <td mat-cell *matCellDef="let element">{{ element.currency }}</td>
-    </ng-container>
+      <ng-container matColumnDef="rate">
+        <th mat-header-cell *matHeaderCellDef>Rate</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.rate | number: "1.2-2" }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="rate">
-      <th mat-header-cell *matHeaderCellDef>Rate</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.rate | number : "1.2-2" }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Date</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.date | date : "dd.MM.yyyy" }}
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="exchangeDataColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: exchangeDataColumns"></tr>
-  </table>
-</div>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.date | date: "dd.MM.yyyy" }}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="exchangeDataColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: exchangeDataColumns"></tr>
+    </table>
+  </div>
 }
