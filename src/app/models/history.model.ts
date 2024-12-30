@@ -26,9 +26,14 @@ export interface UserExpenses {
 }
 
 export interface EventInfo {
-  type: 'income' | 'outcome';
+  type: TransactionType;
   amount: number;
   category: number;
   date: string;
   description: string;
+}
+
+export interface dataChart {
+  name: string;
+  y: number;
 }
