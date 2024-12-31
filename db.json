@@ -66,6 +66,11 @@
       "name": "Car",
       "capacity": 7000,
       "userId": 2
+    },
+    {
+      "id": "5b00",
+      "name": "Sports",
+      "capacity": 3000
     }
   ],
   "events": [
