@@ -18,6 +18,8 @@ import {
   Validators,
 } from '@angular/forms';
 
+import { Category } from '../../models/history.model';
+
 @Component({
   selector: 'app-modal-form-category',
   standalone: true,
@@ -38,8 +40,7 @@ import {
 export class ModalFormCategoryComponent implements OnInit {
   public form!: FormGroup;
   public showSelector = false;
-  public categories: { id: string; name: string; capacity: number }[] = []; //Category[]
-  public isSelected = false;
+  public categories: Category[] = [];
   public title = '';
 
   private dialogRef = inject(MatDialogRef<ModalFormCategoryComponent>);
@@ -59,7 +60,7 @@ export class ModalFormCategoryComponent implements OnInit {
     if (this.showSelector) {
       this.form.addControl(
         'category',
-        this.fb.control(this.data.category.id || '', Validators.required)
+        this.fb.control(this.data.category.id || '', Validators.required),
       );
     }
 

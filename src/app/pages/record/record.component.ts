@@ -7,6 +7,8 @@ import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 
 import { RecordService } from '../../services/record.service';
 import { ModalFormCategoryComponent } from '../../layout/modal-form-category/modal-form-category.component';
+import { Category } from '../../models/history.model';
+import { HistoryService } from '../../services/history.service';
 
 @Component({
   selector: 'app-record',
@@ -17,30 +19,21 @@ import { ModalFormCategoryComponent } from '../../layout/modal-form-category/mod
 })
 export class RecordComponent implements OnInit, OnDestroy {
   public tableColumns: string[] = ['index', 'category', 'limit', 'actions'];
-  public userCategories = [
-    {
-      id: 1,
-      name: 'Home',
-      capacity: 15000,
-    },
-    {
-      id: 2,
-      name: 'Food',
-      capacity: 10000,
-    },
-    {
-      id: 3,
-      name: 'Car',
-      capacity: 7000,
-    },
-  ]; //Category[]
+  public userCategories: Category[] = [];
   private destroy$ = new Subject<void>();
 
   private dialog = inject(MatDialog);
   private recordService = inject(RecordService);
-  //private historyService = inject(HistoryService);
+  private historyService = inject(HistoryService);
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.historyService
+      .getCategories()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (categories) => (this.userCategories = categories),
+      });
+  }
   public openFormCategory(): void {
     const dialogRef = this.dialog.open(ModalFormCategoryComponent, {
       autoFocus: false,
@@ -54,26 +47,20 @@ export class RecordComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter((val) => val !== null && val !== undefined),
-        switchMap((val) => this.recordService.saveCategory(val))
-        //switchMap(() => this.historyService.getCategories())
+        switchMap((val) => this.recordService.saveCategory(val)),
+        switchMap(() => this.historyService.getCategories()),
       )
       .subscribe({
-        // next: (categories) => {
-        //   this.userCategories = categories;
-        // },
+        next: (categories) => {
+          this.userCategories = categories;
+        },
         error: (error) => {
           console.error(error.message);
         },
       });
   }
 
-  public updateCategory(category: {
-    id: string;
-    name: string;
-    capacity: number;
-  }) {
-    //Category
-    //Category
+  public updateCategory(category: Category) {
     const dialogRef = this.dialog.open(ModalFormCategoryComponent, {
       autoFocus: false,
       width: '400px',
@@ -89,13 +76,13 @@ export class RecordComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter((val) => val !== null && val !== undefined),
-        switchMap((val) => this.recordService.updateCategory(val, category.id))
-        //switchMap(() => this.historyService.getCategories())
+        switchMap((val) => this.recordService.updateCategory(val, category.id)),
+        switchMap(() => this.historyService.getCategories()),
       )
       .subscribe({
-        // next: (categories) => {
-        //   this.userCategories = categories;
-        // },
+        next: (categories) => {
+          this.userCategories = categories;
+        },
         error: (error) => {
           console.error(error.message);
         },
