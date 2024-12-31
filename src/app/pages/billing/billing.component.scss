@@ -1,0 +1,28 @@
+@use "../../../styles/theme.scss" as theme;
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid theme.$primary-color-100;
+}
+
+.table-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+caption {
+  padding: 10px;
+  text-align: start;
+  background-color: theme.$primary-contrast-color;
+}
+
+p {
+  text-align: center;
+}
