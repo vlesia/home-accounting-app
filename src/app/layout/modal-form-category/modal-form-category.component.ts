@@ -43,7 +43,7 @@ export class ModalFormCategoryComponent implements OnInit {
 
   public ngOnInit(): void {
     this.title = this.data.title;
-    
+
     this.form = this.fb.group({
       name: ['', Validators.required],
       capacity: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
