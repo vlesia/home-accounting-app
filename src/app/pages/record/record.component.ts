@@ -7,6 +7,7 @@ import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 
 import { ModalConfirmComponent } from '../../layout/modal-confirm/modal-confirm.component';
 import { RecordService } from '../../services/record.service';
+import { HistoryService } from '../../services/history.service';
 
 export interface Category {
   id: string;
@@ -23,20 +24,20 @@ export interface Category {
 })
 export class RecordComponent implements OnInit, OnDestroy {
   public tableColumns: string[] = ['index', 'category', 'limit', 'actions'];
-  public userCategories = []; //Category
+  public userCategories: Category[] = [];
   private destroy$ = new Subject<void>();
 
-  //private historyService = inject(HistoryService);
+  private historyService = inject(HistoryService);
   private dialog = inject(MatDialog);
   private recordService = inject(RecordService);
 
   public ngOnInit(): void {
-    // this.historyService
-    //   .getCategories()
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe({
-    //     next: (categories) => (this.userCategories = categories),
-    //   });
+    this.historyService
+      .getCategories()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (categories) => (this.userCategories = categories),
+      });
   }
 
   public deleteCategory(category: Category): void {
@@ -52,11 +53,11 @@ export class RecordComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter((val) => val === true),
-        switchMap(() => this.recordService.deleteCategory(category.id))
-        //switchMap(() => this.historyService .getCategories()),
+        switchMap(() => this.recordService.deleteCategory(category.id)),
+        switchMap(() => this.historyService.getCategories()),
       )
       .subscribe({
-        //next: categories => this.userCategories = categories,
+        next: (categories) => (this.userCategories = categories),
         error: (error) => {
           console.error(error.message);
         },

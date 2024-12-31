@@ -18,11 +18,11 @@ export class ModalConfirmComponent {
   public data = inject(MAT_DIALOG_DATA);
   private dialogRef = inject(MatDialogRef);
 
-  onCancel(): void {
+  public onCancel(): void {
     this.dialogRef.close(false);
   }
 
-  onDelete(): void {
+  public onDelete(): void {
     this.dialogRef.close(true);
   }
 }
