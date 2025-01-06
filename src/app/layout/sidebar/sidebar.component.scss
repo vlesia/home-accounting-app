@@ -1,4 +1,4 @@
-@use '../../../styles/theme.scss' as theme;
+@use "../../../styles/theme.scss" as theme;
 
 .user-info {
   display: flex;
@@ -45,7 +45,6 @@ mat-nav-list {
 
 .active-link {
   background-color: theme.$primary-color;
-  color: theme.$primary-contrast-color;
 }
 
 .active-link span {
