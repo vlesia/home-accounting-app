@@ -53,10 +53,10 @@ export class HistoryService {
         return throwError(
           () =>
             new Error(
-              'Something went wrong while fetching the data. Please try again later.'
-            )
+              'Something went wrong while fetching the data. Please try again later.',
+            ),
         );
-      })
+      }),
     );
   }
 
@@ -67,30 +67,24 @@ export class HistoryService {
     }).pipe(
       map(({ categories, events }) => {
         const outcomeEvents = events.filter(
-          (event) => event.type === 'outcome'
+          (event) => event.type === 'outcome',
         );
 
-        const categoryTotals = outcomeEvents.reduce((acc, event) => {
-          const category = categories.find(
-            (cat) => +cat.id === +event.category
-          );
-          if (category) {
-            acc[category.name] = (acc[category.name] || 0) + event.amount;
-          }
-          return acc;
-        }, {} as Record<string, number>);
+        const categoryTotals = outcomeEvents.reduce(
+          (acc, event) => {
+            const category = categories.find(
+              (cat) => +cat.id === +event.category,
+            );
+            if (category) {
+              acc[category.name] = (acc[category.name] || 0) + event.amount;
+            }
+            return acc;
+          },
+          {} as Record<string, number>,
+        );
 
         return Object.entries(categoryTotals).map(([name, y]) => ({ name, y }));
-      })
+      }),
     );
   }
 }
-
-
-
-
-
-
-
-
-

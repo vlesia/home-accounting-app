@@ -49,7 +49,7 @@ export class HistoryTableComponent implements OnInit {
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  public openDetails(eventId: string, index: number) {
+  public openDetails(eventId: string, index: number): void {
     this.router.navigate(['/event-details', eventId], {
       state: { eventIndex: index },
     });
