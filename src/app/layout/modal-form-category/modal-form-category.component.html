@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    @if (showSelector) {
+    <mat-form-field appearance="fill">
+      <mat-label>Select category</mat-label>
+      <mat-select formControlName="category">
+        @for ( category of categories; track category.id) {
+        <mat-option
+          [value]="category.id"
+        >
+          {{ category.name }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    }
+    <mat-form-field appearance="fill">
+      <mat-label>Enter category</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Enter limit</mat-label>
+      <input matInput formControlName="capacity" />
+      @if (form.get('capacity')?.hasError('pattern') ) {
+      <mat-error>
+        {{ "Only numbers are allowed" }}
+      </mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="form.invalid || form.pristine"
+    (click)="submitFormData(form.value)"
+  >
+    Add
+  </button>
+  <button mat-button (click)="onClose()">Cancel</button>
+</mat-dialog-actions>

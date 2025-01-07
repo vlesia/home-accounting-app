@@ -1,7 +1,7 @@
 export interface UserBill {
   value: number;
   currency: string;
-  userId: number;
+  userId: string;
 }
 
 export interface Rate {
