@@ -9,9 +9,6 @@ import { RecordService } from '../../services/record.service';
 import { ModalFormCategoryComponent } from '../../layout/modal-form-category/modal-form-category.component';
 import { Category } from '../../models/history.model';
 import { HistoryService } from '../../services/history.service';
-import { FormCategory } from '../../models/record.model';
-import { UserService } from './../../services/user.service';
-import { User } from './../../models/user.model';
 
 @Component({
   selector: 'app-record',
@@ -28,11 +25,6 @@ export class RecordComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   private recordService = inject(RecordService);
   private historyService = inject(HistoryService);
-  private userService = inject(UserService);
-
-  public get user(): User | null {
-    return this.userService.getUser();
-  }
 
   public ngOnInit(): void {
     this.historyService
@@ -58,12 +50,8 @@ export class RecordComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter(Boolean),
-        switchMap((formCategory: FormCategory) =>
-          this.recordService.saveCategory({
-            name: formCategory.name,
-            capacity: +formCategory.capacity,
-            userId: this.user!.id,
-          }),
+        switchMap((formCategory) =>
+          this.recordService.saveCategory(formCategory),
         ),
         switchMap(() => this.historyService.getCategories()),
       )

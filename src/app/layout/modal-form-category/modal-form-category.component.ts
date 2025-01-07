@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
-  MatDialogClose,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
@@ -17,6 +16,10 @@ import {
   Validators,
 } from '@angular/forms';
 
+import { Category } from '../../models/history.model';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
+
 @Component({
   selector: 'app-modal-form-category',
   standalone: true,
@@ -25,7 +28,6 @@ import {
     MatInputModule,
     MatButtonModule,
     MatDialogActions,
-    MatDialogClose,
     MatDialogContent,
     MatDialogTitle,
     ReactiveFormsModule,
@@ -40,6 +42,11 @@ export class ModalFormCategoryComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<ModalFormCategoryComponent>);
   private fb = inject(FormBuilder);
   private data = inject(MAT_DIALOG_DATA);
+  private userService = inject(UserService);
+
+  public get user(): User | null {
+    return this.userService.getUser();
+  }
 
   public ngOnInit(): void {
     this.title = this.data.title;
@@ -47,6 +54,14 @@ export class ModalFormCategoryComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       capacity: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+    });
+  }
+
+  public submitFormData(formCategory: Omit<Category, 'id' | 'userId'>): void {
+    this.dialogRef.close({
+      name: formCategory.name,
+      capacity: +formCategory.capacity,
+      userId: this.user!.id,
     });
   }
 

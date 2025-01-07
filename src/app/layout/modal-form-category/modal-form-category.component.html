@@ -22,7 +22,7 @@
     mat-raised-button
     color="primary"
     [disabled]="form.invalid"
-    [mat-dialog-close]="form.value"
+    (click)="submitFormData(form.value)"
   >
     Add
   </button>
