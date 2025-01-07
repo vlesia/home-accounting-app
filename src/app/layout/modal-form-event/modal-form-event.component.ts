@@ -6,7 +6,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import {
   MatDialogActions,
-  MatDialogClose,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
@@ -18,8 +17,11 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { Category } from '../../models/history.model';
+import { Category, Event } from '../../models/history.model';
 import { HistoryService } from './../../services/history.service';
+import { getFormattedCurrentDate } from '../../utils/date-helpers';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-modal-form-event',
@@ -29,7 +31,6 @@ import { HistoryService } from './../../services/history.service';
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
-    MatDialogClose,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
@@ -48,6 +49,11 @@ export class ModalFormEventComponent implements OnInit {
   private fb = inject(FormBuilder);
   private destroyRef = inject(DestroyRef);
   private historyService = inject(HistoryService);
+  private userService = inject(UserService);
+
+  public get user(): User | null {
+    return this.userService.getUser();
+  }
 
   public ngOnInit() {
     const subscriptions = this.historyService.getCategories().subscribe({
@@ -63,6 +69,16 @@ export class ModalFormEventComponent implements OnInit {
     this.destroyRef.onDestroy(() => subscriptions.unsubscribe());
   }
 
+  public submitFormData(formEvent: Omit<Event, 'id' | 'userId'>): void {
+    this.dialogRef.close({
+      type: formEvent.type,
+      amount: +formEvent.amount,
+      category: +formEvent.category,
+      date: getFormattedCurrentDate(),
+      description: formEvent.description,
+      userId: this.user!.id,
+    });
+  }
   public onClose(): void {
     this.dialogRef.close(null);
   }

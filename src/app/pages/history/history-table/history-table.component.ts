@@ -25,9 +25,6 @@ import { UserExpenses } from '../../../models/history.model';
 import { HistoryService } from '../../../services/history.service';
 import { RecordService } from '../../../services/record.service';
 import { ModalFormEventComponent } from '../../../layout/modal-form-event/modal-form-event.component';
-import { getFormattedCurrentDate } from '../../../utils/date-helpers';
-import { User } from '../../../models/user.model';
-import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-history-table',
@@ -70,11 +67,6 @@ export class HistoryTableComponent implements OnInit, AfterViewInit, OnDestroy {
   private router = inject(Router);
   private dialog = inject(MatDialog);
   private recordService = inject(RecordService);
-  private userService = inject(UserService);
-
-  public get user(): User | null {
-      return this.userService.getUser();
-    }
 
   public ngOnInit(): void {
     const subscription = this.historyService.getCombinedData().subscribe({
@@ -116,20 +108,11 @@ export class HistoryTableComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter(Boolean),
-        switchMap((formEvent) =>
-          this.recordService.saveEvent({
-            type: formEvent.type,
-            amount: +formEvent.amount,
-            category: +formEvent.category,
-            date: getFormattedCurrentDate(),
-            description: formEvent.description,
-            userId: this.user!.id,
-          }),
-        ),
-        switchMap(() => this.historyService.getCombinedData())
+        switchMap((formEvent) => this.recordService.saveEvent(formEvent)),
+        switchMap(() => this.historyService.getCombinedData()),
       )
       .subscribe({
-        next: val => this.userExpenses.data = val,
+        next: (val) => (this.userExpenses.data = val),
         error: (error) => {
           console.error(error.message);
         },

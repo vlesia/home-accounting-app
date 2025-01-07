@@ -2,10 +2,20 @@
   <h2>Record page</h2>
 </div>
 <div class="button-container">
-  <button mat-raised-button color="primary" class="left-button" (click)="openFormEvent()">
+  <button
+    mat-raised-button
+    color="primary"
+    class="left-button"
+    (click)="openFormEvent()"
+  >
     Add event
   </button>
-  <button mat-raised-button color="primary" class="right-button">
+  <button
+    mat-raised-button
+    color="primary"
+    class="right-button"
+    (click)="openFormCategory()"
+  >
     Add category
   </button>
 </div>
@@ -33,10 +43,10 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
-      <button mat-icon-button>
+      <button mat-icon-button (click)="updateCategory(element)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="deleteCategory(element)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
