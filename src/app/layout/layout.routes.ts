@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { LayoutComponent } from './layout.component';
+import { EventDetailsComponent } from '../pages/event-details/event-details.component';
 
 export const layoutRoutes: Routes = [
   {
@@ -27,6 +28,10 @@ export const layoutRoutes: Routes = [
           import('../pages/record/record.component').then(
             (c) => c.RecordComponent
           ),
+      },
+      {
+        path: 'event-details/:id',
+       component: EventDetailsComponent,
       },
       { path: '', redirectTo: 'billing', pathMatch: 'full' },
     ],

@@ -27,13 +27,15 @@ export class RecordComponent implements OnInit, OnDestroy {
   private historyService = inject(HistoryService);
 
   public ngOnInit(): void {
-    this.historyService
-      .getCategories()
+    this.historyService.getCategories()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (categories) => (this.userCategories = categories),
+        next: (categories) => {
+          this.userCategories = categories;
+        },
       });
   }
+
   public openFormCategory(): void {
     const dialogRef = this.dialog.open(ModalFormCategoryComponent, {
       autoFocus: false,
