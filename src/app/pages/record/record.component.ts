@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { filter, Subject, switchMap, takeUntil } from 'rxjs';
@@ -26,7 +26,6 @@ export class RecordComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   private recordService = inject(RecordService);
 
-
   public ngOnInit(): void {
     this.historyService.getCategories()
       .pipe(takeUntil(this.destroy$))
@@ -38,18 +37,21 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   public deleteCategory(category: Category): void {
-    const dialogRef = this.dialog.open(ModalConfirmComponent, {
-      width: '500px',
-      data: {
-        message: `Are you sure you want to delete the category ${category.name}?`,
+    const dialogRef: MatDialogRef<ModalConfirmComponent> = this.dialog.open(
+      ModalConfirmComponent,
+      {
+        width: '500px',
+        data: {
+          message: `Are you sure you want to delete the category ${category.name}?`,
+        },
       },
-    });
+    );
 
     dialogRef
       .afterClosed()
       .pipe(
         takeUntil(this.destroy$),
-        filter((val) => val === true),
+        filter(Boolean),
         switchMap(() => this.recordService.deleteCategory(category.id)),
         switchMap(() => this.historyService.getCategories()),
       )
