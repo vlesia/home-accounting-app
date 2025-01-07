@@ -2,7 +2,7 @@ export interface Category {
   id: string;
   name: string;
   capacity: number;
-  userId: number;
+  userId: string;
 }
 
 export type TransactionType = 'income' | 'outcome';
@@ -14,7 +14,7 @@ export interface Event {
   category: number;
   date: string;
   description: string;
-  userId: number;
+  userId: string;
 }
 
 export interface UserExpenses {
@@ -32,7 +32,7 @@ export interface EventDetails {
   category: string;
   date: string;
   description: string;
-  userId: number;
+  userId: string;
 }
 
 export interface dataChart {
