@@ -3,8 +3,17 @@
 </div>
 
 <div class="button-container">
-  <button mat-raised-button color="primary" class="left-button">Add event</button>
-  <button mat-raised-button color="primary" class="right-button">Add category</button>
+  <button mat-raised-button color="primary" class="left-button">
+    Add event
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    class="right-button"
+    (click)="openFormCategory()"
+  >
+    Add category
+  </button>
 </div>
 
 <table mat-table [dataSource]="userCategories" class="mat-elevation-z8">
