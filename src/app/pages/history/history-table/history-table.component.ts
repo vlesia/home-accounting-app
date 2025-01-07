@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatSortModule } from '@angular/material/sort';
@@ -57,6 +58,7 @@ export class HistoryTableComponent implements OnInit, AfterViewInit {
 
   private historyService = inject(HistoryService);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
   public ngOnInit(): void {
     const subscription = this.historyService.getCombinedData().subscribe({
@@ -78,5 +80,11 @@ export class HistoryTableComponent implements OnInit, AfterViewInit {
   public applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.userExpenses.filter = filterValue.trim().toLowerCase();
+  }
+
+  public openDetails(eventId: string, index: number): void {
+    this.router.navigate(['/event-details', eventId], {
+      state: { eventIndex: index },
+    });
   }
 }
