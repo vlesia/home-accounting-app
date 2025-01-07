@@ -37,4 +37,14 @@ export class RecordService {
         ),
       );
   }
+
+  public deleteCategory(categoryId: string): Observable<void> {
+    return this.http.delete<void>(`/categories/${categoryId}`).pipe(
+      catchError((error) => {
+        return throwError(
+          () => new Error('Unable to delete category. Please try again later.'),
+        );
+      }),
+    );
+  }
 }

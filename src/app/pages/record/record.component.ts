@@ -1,14 +1,15 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 
 import { RecordService } from '../../services/record.service';
 import { ModalFormCategoryComponent } from '../../layout/modal-form-category/modal-form-category.component';
 import { Category } from '../../models/history.model';
 import { HistoryService } from '../../services/history.service';
+import { ModalConfirmComponent } from '../../layout/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-record',
@@ -91,6 +92,32 @@ export class RecordComponent implements OnInit, OnDestroy {
         next: (categories) => {
           this.userCategories = categories;
         },
+        error: (error) => {
+          console.error(error.message);
+        },
+      });
+  }
+
+  public deleteCategory(category: Category): void {
+    const dialogRef: MatDialogRef<ModalConfirmComponent> = this.dialog.open(
+      ModalConfirmComponent,
+      {
+        width: '500px',
+        data: {
+          message: `Are you sure you want to delete the category ${category.name}?`,
+        },
+      },
+    );
+    dialogRef
+      .afterClosed()
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(Boolean),
+        switchMap(() => this.recordService.deleteCategory(category.id)),
+        switchMap(() => this.historyService.getCategories()),
+      )
+      .subscribe({
+        next: (categories) => (this.userCategories = categories),
         error: (error) => {
           console.error(error.message);
         },
