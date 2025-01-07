@@ -21,4 +21,20 @@ export class RecordService {
         ),
       );
   }
+
+  public updateCategory(
+    category: Omit<Category, 'id' | 'userId'>,
+    categoryId: string,
+  ): Observable<Category> {
+    return this.http
+      .patch<Category>(`/categories/${categoryId}`, category)
+      .pipe(
+        catchError(() =>
+          throwError(
+            () =>
+              new Error('Unable to update category. Please try again later.'),
+          ),
+        ),
+      );
+  }
 }

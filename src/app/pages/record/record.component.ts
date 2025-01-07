@@ -65,6 +65,38 @@ export class RecordComponent implements OnInit, OnDestroy {
       });
   }
 
+  public updateCategory(category: Category) {
+    const dialogRef: MatDialogRef<ModalFormCategoryComponent> =
+      this.dialog.open(ModalFormCategoryComponent, {
+        autoFocus: false,
+        width: '400px',
+        data: {
+          showSelector: true,
+          title: 'Update Category',
+          categories: this.userCategories,
+          category,
+        },
+      });
+    dialogRef
+      .afterClosed()
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(Boolean),
+        switchMap((formCategory) =>
+          this.recordService.updateCategory(formCategory, category.id),
+        ),
+        switchMap(() => this.historyService.getCategories()),
+      )
+      .subscribe({
+        next: (categories) => {
+          this.userCategories = categories;
+        },
+        error: (error) => {
+          console.error(error.message);
+        },
+      });
+  }
+
   public ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
