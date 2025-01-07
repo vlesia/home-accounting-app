@@ -5,16 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 
+import { HistoryService } from '../../services/history.service';
+import { Category } from '../../models/history.model';
 import { ModalConfirmComponent } from '../../layout/modal-confirm/modal-confirm.component';
 import { RecordService } from '../../services/record.service';
-import { HistoryService } from '../../services/history.service';
 
-export interface Category {
-  id: string;
-  name: string;
-  capacity: number;
-  userId: number;
-}
 @Component({
   selector: 'app-record',
   standalone: true,
@@ -31,12 +26,14 @@ export class RecordComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   private recordService = inject(RecordService);
 
+
   public ngOnInit(): void {
-    this.historyService
-      .getCategories()
+    this.historyService.getCategories()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (categories) => (this.userCategories = categories),
+        next: (categories) => {
+          this.userCategories = categories;
+        },
       });
   }
 
@@ -63,6 +60,7 @@ export class RecordComponent implements OnInit, OnDestroy {
         },
       });
   }
+
   public ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
