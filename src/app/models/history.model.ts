@@ -32,7 +32,7 @@ export interface EventDetails {
   category: string;
   date: string;
   description: string;
-  userId: number;
+  userId: string;
 }
 
 export interface dataChart {

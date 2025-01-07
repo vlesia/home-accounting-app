@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { filter, map, Subject, switchMap, takeUntil } from 'rxjs';
+import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 
 import { RecordService } from '../../services/record.service';
 import { ModalFormCategoryComponent } from '../../layout/modal-form-category/modal-form-category.component';
@@ -35,7 +35,8 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.historyService.getCategories()
+    this.historyService
+      .getCategories()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (categories) => {
@@ -57,12 +58,13 @@ export class RecordComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter(Boolean),
-        map((formCategory: FormCategory) => ({
-          name: formCategory.name,
-          capacity: +formCategory.capacity,
-          userId: this.user!.id,
-        })),
-        switchMap((category) => this.recordService.saveCategory(category)),
+        switchMap((formCategory: FormCategory) =>
+          this.recordService.saveCategory({
+            name: formCategory.name,
+            capacity: +formCategory.capacity,
+            userId: this.user!.id,
+          }),
+        ),
         switchMap(() => this.historyService.getCategories()),
       )
       .subscribe({
