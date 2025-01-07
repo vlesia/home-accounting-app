@@ -67,9 +67,10 @@
       "userId": 2
     },
     {
-      "id": "5b00",
-      "name": "Sports",
-      "capacity": 3000
+      "id": "bfc4",
+      "name": "sport",
+      "capacity": 3000,
+      "userId": "2"
     }
   ],
   "events": [

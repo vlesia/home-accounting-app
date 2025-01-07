@@ -6,7 +6,6 @@ import { MatSelectModule } from '@angular/material/select';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
-  MatDialogClose,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
@@ -19,6 +18,8 @@ import {
 } from '@angular/forms';
 
 import { Category } from '../../models/history.model';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-modal-form-category',
@@ -28,7 +29,6 @@ import { Category } from '../../models/history.model';
     MatInputModule,
     MatButtonModule,
     MatDialogActions,
-    MatDialogClose,
     MatDialogContent,
     MatDialogTitle,
     MatSelectModule,
@@ -46,6 +46,11 @@ export class ModalFormCategoryComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<ModalFormCategoryComponent>);
   private fb = inject(FormBuilder);
   private data = inject(MAT_DIALOG_DATA);
+  private userService = inject(UserService);
+
+  public get user(): User | null {
+    return this.userService.getUser();
+  }
 
   public ngOnInit(): void {
     this.showSelector = this.data.showSelector;
@@ -67,6 +72,14 @@ export class ModalFormCategoryComponent implements OnInit {
     if (this.data.category) {
       this.form.patchValue(this.data.category);
     }
+  }
+
+  public submitFormData(formCategory: Omit<Category, 'id' | 'userId'>): void {
+    this.dialogRef.close({
+      name: formCategory.name,
+      capacity: +formCategory.capacity,
+      userId: this.user!.id,
+    });
   }
 
   public onClose(): void {

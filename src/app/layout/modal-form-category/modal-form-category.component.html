@@ -36,7 +36,7 @@
     mat-raised-button
     color="primary"
     [disabled]="form.invalid || form.pristine"
-    [mat-dialog-close]="form.value"
+    (click)="submitFormData(form.value)"
   >
     Add
   </button>

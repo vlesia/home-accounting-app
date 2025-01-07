@@ -28,6 +28,7 @@ export class RecordComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   private recordService = inject(RecordService);
   private historyService = inject(HistoryService);
+
   private userService = inject(UserService);
 
   public get user(): User | null {
@@ -43,7 +44,6 @@ export class RecordComponent implements OnInit, OnDestroy {
         },
       });
   }
-
   public openFormCategory(): void {
     const dialogRef: MatDialogRef<ModalFormCategoryComponent> =
       this.dialog.open(ModalFormCategoryComponent, {
@@ -58,12 +58,8 @@ export class RecordComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter(Boolean),
-        switchMap((formCategory: FormCategory) =>
-          this.recordService.saveCategory({
-            name: formCategory.name,
-            capacity: +formCategory.capacity,
-            userId: this.user!.id,
-          }),
+        switchMap((formCategory) =>
+          this.recordService.saveCategory(formCategory),
         ),
         switchMap(() => this.historyService.getCategories()),
       )
@@ -95,10 +91,13 @@ export class RecordComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         filter(Boolean),
         switchMap((formCategory: FormCategory) =>
-          this.recordService.updateCategory({
-            name: formCategory.name,
-            capacity: +formCategory.capacity,
-          }, this.user!.id),
+          this.recordService.updateCategory(
+            {
+              name: formCategory.name,
+              capacity: +formCategory.capacity,
+            },
+            this.user!.id,
+          ),
         ),
         switchMap(() => this.historyService.getCategories()),
       )
