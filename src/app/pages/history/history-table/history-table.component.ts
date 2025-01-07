@@ -1,12 +1,33 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 
 import { UserExpenses } from '../../../models/history.model';
 import { HistoryService } from '../../../services/history.service';
+import { RecordService } from '../../../services/record.service';
+import { ModalFormEventComponent } from '../../../layout/modal-form-event/modal-form-event.component';
+import { getFormattedCurrentDate } from '../../../utils/date-helpers';
+import { User } from '../../../models/user.model';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-history-table',
@@ -17,11 +38,15 @@ import { HistoryService } from '../../../services/history.service';
     MatToolbarModule,
     MatButtonModule,
     CommonModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './history-table.component.html',
   styleUrl: './history-table.component.scss',
 })
-export class HistoryTableComponent implements OnInit {
+export class HistoryTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public tableColumns: string[] = [
     'index',
     'amount',
@@ -30,22 +55,89 @@ export class HistoryTableComponent implements OnInit {
     'type',
     'actions',
   ];
-  public userExpenses: UserExpenses[] = [];
+  public userExpenses = new MatTableDataSource<UserExpenses>([]);
   public error = '';
+  public shouldShowPaginator = false;
+  public pageSizeOption = [4, 8, 12];
+  public pageSize = 4;
+  private destroy$ = new Subject<void>();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   private historyService = inject(HistoryService);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
+  private recordService = inject(RecordService);
+  private userService = inject(UserService);
+
+  public get user(): User | null {
+      return this.userService.getUser();
+    }
 
   public ngOnInit(): void {
-    const subscription = this.historyService
-      .getCombinedData()
-      .subscribe({
-        next: (val) => {
-          this.userExpenses = val;
-        },
-        error: (err) => (this.error = err.message),
-      });
+    const subscription = this.historyService.getCombinedData().subscribe({
+      next: (val) => {
+        this.userExpenses.data = val;
+        this.shouldShowPaginator = val.length > this.pageSize;
+      },
+      error: (err) => (this.error = err.message),
+    });
 
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
+
+  public ngAfterViewInit(): void {
+    this.userExpenses.paginator = this.paginator;
+    this.userExpenses.sort = this.sort;
+  }
+
+  public applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.userExpenses.filter = filterValue.trim().toLowerCase();
+  }
+
+  public openDetails(eventId: string, index: number): void {
+    this.router.navigate(['/event-details', eventId], {
+      state: { eventIndex: index },
+    });
+  }
+
+  public openFormEvent(): void {
+    const dialogRef: MatDialogRef<ModalFormEventComponent> = this.dialog.open(
+      ModalFormEventComponent,
+      {
+        autoFocus: false,
+      },
+    );
+    dialogRef
+      .afterClosed()
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(Boolean),
+        switchMap((formEvent) =>
+          this.recordService.saveEvent({
+            type: formEvent.type,
+            amount: +formEvent.amount,
+            category: +formEvent.category,
+            date: getFormattedCurrentDate(),
+            description: formEvent.description,
+            userId: this.user!.id,
+          }),
+        ),
+        switchMap(() => this.historyService.getCombinedData())
+      )
+      .subscribe({
+        next: val => this.userExpenses.data = val,
+        error: (error) => {
+          console.error(error.message);
+        },
+      });
+  }
+
+  public ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
