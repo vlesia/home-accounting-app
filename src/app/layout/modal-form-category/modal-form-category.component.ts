@@ -75,11 +75,18 @@ export class ModalFormCategoryComponent implements OnInit {
   }
 
   public submitFormData(formCategory: Omit<Category, 'id' | 'userId'>): void {
-    this.dialogRef.close({
-      name: formCategory.name,
-      capacity: +formCategory.capacity,
-      userId: this.user!.id,
-    });
+    if (this.showSelector) {
+      this.dialogRef.close({
+        name: formCategory.name,
+        capacity: +formCategory.capacity,
+      });
+    } else {
+      this.dialogRef.close({
+        name: formCategory.name,
+        capacity: +formCategory.capacity,
+        userId: this.user!.id,
+      });
+    }
   }
 
   public onClose(): void {

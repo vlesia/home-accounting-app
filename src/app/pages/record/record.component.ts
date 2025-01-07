@@ -9,9 +9,6 @@ import { RecordService } from '../../services/record.service';
 import { ModalFormCategoryComponent } from '../../layout/modal-form-category/modal-form-category.component';
 import { Category } from '../../models/history.model';
 import { HistoryService } from '../../services/history.service';
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
-import { FormCategory } from '../../models/record.model';
 
 @Component({
   selector: 'app-record',
@@ -29,14 +26,9 @@ export class RecordComponent implements OnInit, OnDestroy {
   private recordService = inject(RecordService);
   private historyService = inject(HistoryService);
 
-  private userService = inject(UserService);
-
-  public get user(): User | null {
-    return this.userService.getUser();
-  }
-
   public ngOnInit(): void {
-    this.historyService.getCategories()
+    this.historyService
+      .getCategories()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (categories) => {
@@ -90,14 +82,8 @@ export class RecordComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter(Boolean),
-        switchMap((formCategory: FormCategory) =>
-          this.recordService.updateCategory(
-            {
-              name: formCategory.name,
-              capacity: +formCategory.capacity,
-            },
-            this.user!.id,
-          ),
+        switchMap((formCategory) =>
+          this.recordService.updateCategory(formCategory, category.id),
         ),
         switchMap(() => this.historyService.getCategories()),
       )
