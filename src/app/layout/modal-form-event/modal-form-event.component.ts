@@ -19,7 +19,6 @@ import {
 
 import { Category, Event } from '../../models/history.model';
 import { HistoryService } from './../../services/history.service';
-import { getFormattedCurrentDate } from '../../utils/date-helpers';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 
@@ -68,17 +67,19 @@ export class ModalFormEventComponent implements OnInit {
 
     this.destroyRef.onDestroy(() => subscriptions.unsubscribe());
   }
-
-  public submitFormData(formEvent: Omit<Event, 'id' | 'userId'>): void {
+  
+  public submitFormData({
+    amount,
+    ...rest
+  }: Omit<Event, 'id' | 'date' | 'userId'>): void {
     this.dialogRef.close({
-      type: formEvent.type,
-      amount: +formEvent.amount,
-      category: +formEvent.category,
-      date: getFormattedCurrentDate(),
-      description: formEvent.description,
+      amount: +amount,
+      ...rest,
+      date: new Date().toISOString(),
       userId: this.user!.id,
     });
   }
+
   public onClose(): void {
     this.dialogRef.close(null);
   }

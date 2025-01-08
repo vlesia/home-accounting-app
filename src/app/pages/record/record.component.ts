@@ -11,7 +11,6 @@ import { ModalFormCategoryComponent } from '../../layout/modal-form-category/mod
 import { Category } from '../../models/history.model';
 import { ModalFormEventComponent } from '../../layout/modal-form-event/modal-form-event.component';
 import { ModalConfirmComponent } from '../../layout/modal-confirm/modal-confirm.component';
-import { getFormattedCurrentDate } from '../../utils/date-helpers';
 
 @Component({
   selector: 'app-record',

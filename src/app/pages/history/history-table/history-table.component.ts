@@ -112,7 +112,10 @@ export class HistoryTableComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap(() => this.historyService.getCombinedData()),
       )
       .subscribe({
-        next: (val) => (this.userExpenses.data = val),
+        next: (val) => {
+          this.userExpenses.data = val;
+          this.shouldShowPaginator = val.length > this.pageSize;
+        },
         error: (error) => {
           console.error(error.message);
         },
