@@ -37,7 +37,7 @@ export class HistoryService {
     }).pipe(
       map(({ categories, events }) => {
         const combinedData = events.map((event) => {
-          const category = categories.find((cat) => +cat.id === event.category);
+          const category = categories.find((cat) => cat.id === String(event.category));
           return {
             id: event.id,
             amount: event.amount,
@@ -73,7 +73,7 @@ export class HistoryService {
         const categoryTotals = outcomeEvents.reduce(
           (acc, event) => {
             const category = categories.find(
-              (cat) => +cat.id === +event.category,
+              (cat) => cat.id === String(event.category),
             );
             if (category) {
               acc[category.name] = (acc[category.name] || 0) + event.amount;
