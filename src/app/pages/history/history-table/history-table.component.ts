@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -17,9 +18,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 
 import { UserExpenses } from '../../../models/history.model';
 import { HistoryService } from '../../../services/history.service';
+import { RecordService } from '../../../services/record.service';
+import { ModalFormEventComponent } from '../../../layout/modal-form-event/modal-form-event.component';
 
 @Component({
   selector: 'app-history-table',
@@ -38,7 +43,7 @@ import { HistoryService } from '../../../services/history.service';
   templateUrl: './history-table.component.html',
   styleUrl: './history-table.component.scss',
 })
-export class HistoryTableComponent implements OnInit, AfterViewInit {
+export class HistoryTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public tableColumns: string[] = [
     'index',
     'amount',
@@ -52,6 +57,7 @@ export class HistoryTableComponent implements OnInit, AfterViewInit {
   public shouldShowPaginator = false;
   public pageSizeOption = [4, 8, 12];
   public pageSize = 4;
+  private destroy$ = new Subject<void>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -59,6 +65,8 @@ export class HistoryTableComponent implements OnInit, AfterViewInit {
   private historyService = inject(HistoryService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
+  private dialog = inject(MatDialog);
+  private recordService = inject(RecordService);
 
   public ngOnInit(): void {
     const subscription = this.historyService.getCombinedData().subscribe({
@@ -86,5 +94,36 @@ export class HistoryTableComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/event-details', eventId], {
       state: { eventIndex: index },
     });
+  }
+
+  public openFormEvent(): void {
+    const dialogRef: MatDialogRef<ModalFormEventComponent> = this.dialog.open(
+      ModalFormEventComponent,
+      {
+        autoFocus: false,
+      },
+    );
+    dialogRef
+      .afterClosed()
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(Boolean),
+        switchMap((formEvent) => this.recordService.saveEvent(formEvent)),
+        switchMap(() => this.historyService.getCombinedData()),
+      )
+      .subscribe({
+        next: (val) => {
+          this.userExpenses.data = val;
+          this.shouldShowPaginator = val.length > this.pageSize;
+        },
+        error: (error) => {
+          console.error(error.message);
+        },
+      });
+  }
+
+  public ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

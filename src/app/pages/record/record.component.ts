@@ -6,9 +6,10 @@ import { MatTableModule } from '@angular/material/table';
 import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 
 import { RecordService } from '../../services/record.service';
+import { HistoryService } from '../../services/history.service';
 import { ModalFormCategoryComponent } from '../../layout/modal-form-category/modal-form-category.component';
 import { Category } from '../../models/history.model';
-import { HistoryService } from '../../services/history.service';
+import { ModalFormEventComponent } from '../../layout/modal-form-event/modal-form-event.component';
 import { ModalConfirmComponent } from '../../layout/modal-confirm/modal-confirm.component';
 
 @Component({
@@ -118,6 +119,28 @@ export class RecordComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (categories) => (this.userCategories = categories),
+        error: (error) => {
+          console.error(error.message);
+        },
+      });
+  }
+
+  public openFormEvent(): void {
+    const dialogRef: MatDialogRef<ModalFormEventComponent> = this.dialog.open(
+      ModalFormEventComponent,
+      {
+        autoFocus: false,
+        width: '400px',
+      },
+    );
+    dialogRef
+      .afterClosed()
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(Boolean),
+        switchMap((formEvent) => this.recordService.saveEvent(formEvent)),
+      )
+      .subscribe({
         error: (error) => {
           console.error(error.message);
         },

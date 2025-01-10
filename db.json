@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "user@user.com",
       "password": "12345678",
       "name": "Admin"
@@ -11,13 +11,13 @@
       "password": "qwerty",
       "name": "John",
       "check": true,
-      "id": 2
+      "id": "2"
     },
     {
       "name": "Annie",
       "password": "123456",
       "email": "annie@user.com",
-      "id": 3
+      "id": "3"
     }
   ],
   "bill": [
@@ -49,46 +49,40 @@
   },
   "categories": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Home",
       "capacity": 15000,
       "userId": 2
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Food",
       "capacity": 10000,
       "userId": 2
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Car",
       "capacity": 7000,
       "userId": 2
-    },
-    {
-      "id": "bfc4",
-      "name": "sport",
-      "capacity": 3000,
-      "userId": "2"
     }
   ],
   "events": [
     {
-      "id": 1,
+      "id": "1",
       "type": "income",
       "amount": 1250,
       "category": 2,
-      "date": "12.06.2019 19:49:02",
+      "date": "06.12.2019 19:49:02",
       "description": "Gave food away",
       "userId": 2
     },
     {
-      "id": 2,
+      "id": "2",
       "type": "outcome",
       "amount": 1300,
       "category": 1,
-      "date": "13.06.2019 19:49:02",
+      "date": "06.13.2019 19:49:02",
       "description": "Bought a dishwasher",
       "userId": 2
     },
@@ -96,7 +90,7 @@
       "type": "income",
       "amount": 1480,
       "category": 2,
-      "date": "17.06.2019 14:00:48",
+      "date": "06.17.2019 14:00:48",
       "id": 3,
       "description": "Hike to Auchan with marks. Free meal",
       "userId": 1
@@ -105,7 +99,7 @@
       "type": "outcome",
       "amount": 2470,
       "category": 2,
-      "date": "17.06.2019 14:00:58",
+      "date": "06.17.2019 14:00:58",
       "id": 4,
       "description": "Purchase for a week",
       "userId": 2
@@ -114,7 +108,7 @@
       "type": "outcome",
       "amount": 4000,
       "category": 3,
-      "date": "10.06.2019 14:01:58",
+      "date": "06.10.2019 14:01:58",
       "id": 5,
       "description": "Refueling + maintenance pass",
       "userId": 2
