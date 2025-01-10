@@ -20,6 +20,11 @@ export class SpendingChartComponent implements OnInit {
   private historyService = inject(HistoryService);
   private destroyRef = inject(DestroyRef);
 
+  public get hasChartData(): boolean {
+    const series = this.chartOptions.series as Highcharts.SeriesPieOptions[];
+    return series[0].data!.length > 0;
+  }
+
   public ngOnInit() {
     const subscription = this.historyService
       .getFilteredOutcomeEvents()
