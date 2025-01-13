@@ -16,14 +16,10 @@ export class SpendingChartComponent implements OnInit {
   public updateFlag = false;
   public Highcharts: typeof Highcharts = Highcharts;
   public chartOptions: Highcharts.Options = chartOptions;
+  public isChartEmpty: boolean = false;
 
   private historyService = inject(HistoryService);
   private destroyRef = inject(DestroyRef);
-
-  public get hasChartData(): boolean {
-    const series = this.chartOptions.series as Highcharts.SeriesPieOptions[];
-    return series[0].data!.length > 0;
-  }
 
   public ngOnInit() {
     const subscription = this.historyService
@@ -38,6 +34,7 @@ export class SpendingChartComponent implements OnInit {
             },
           ];
           this.updateFlag = true;
+          this.isChartEmpty = chartData?.length > 0;
         },
         error: (err) => console.error('Error fetching chart data', err),
       });
