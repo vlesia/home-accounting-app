@@ -57,6 +57,12 @@
 
     <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
+    
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="tableColumns.length" class="text">
+        No data provided
+      </td>
+    </tr>
   </table>
 
   <mat-paginator
