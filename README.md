@@ -2,11 +2,11 @@
 
 ## Overview
 
-A web application for managing personal finances and tracking expenses. Built with Angular 17+, standalone components, Angular Material, SCSS, and RxJS. Designed for desktop users with a clean and modern interface.
+A web application for managing personal finances and tracking expenses. Built with Angular 18.2.0 , standalone components, Angular Material, SCSS, and RxJS. Designed for desktop users with a clean and modern interface.
 
 ## Demo
 
-Check out the [DEMO]() to see the project in action!
+Check out the [DEMO](https://home-accounting-app.vercel.app) to see the project in action!
 
 ## Features
 
@@ -19,7 +19,7 @@ Check out the [DEMO]() to see the project in action!
 
 ## Technologies Used
 
-- **Framework**: Angular 17+ with standalone components
+- **Framework**: Angular 18.2.0  with standalone components
 - **UI Design**: Angular Material
 - **Styling**: SCSS
 - **State Management**: RxJS for handling asynchronous operations
