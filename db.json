@@ -65,6 +65,18 @@
       "name": "Car",
       "capacity": 7000,
       "userId": 2
+    },
+    {
+      "id": "bfc4",
+      "name": "sport",
+      "capacity": 3000,
+      "userId": "2"
+    },
+    {
+      "id": 2,
+      "name": "Food",
+      "capacity": 10000,
+      "userId": 1
     }
   ],
   "events": [
