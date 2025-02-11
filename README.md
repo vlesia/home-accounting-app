@@ -1,27 +1,82 @@
-# HomeAccountingApp
+# Home Accounting App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.10.
+## Overview
 
-## Development server
+A web application for managing personal finances and tracking expenses. Built with Angular 18.2.0 , standalone components, Angular Material, SCSS, and RxJS. Designed for desktop users with a clean and modern interface.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Demo
 
-## Code scaffolding
+Check out the [DEMO](https://home-accounting-app.vercel.app) to see the project in action!
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Features
 
-## Build
+- **Expense Tracking**: Record and categorize your expenses.
+- **Income Management**: Track income sources and manage budgets.
+- **Visual Reports**: Interactive graphs and charts for expense tracking and budgeting.
+- **Standalone Components**: Angular's standalone components for better modularity and reusability.
+- **Responsive Layout**: Clean and user-friendly interface optimized for desktop.
+- **RxJS**: For managing asynchronous data streams and state changes.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Technologies Used
 
-## Running unit tests
+- **Framework**: Angular 18.2.0  with standalone components
+- **UI Design**: Angular Material
+- **Styling**: SCSS
+- **State Management**: RxJS for handling asynchronous operations
+- **Backend**: JSON Server for mock API
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Getting Started
 
-## Running end-to-end tests
+1. **Clone the Repository**:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+   ```bash
+   git clone https://github.com/vlesia/home-accounting-app.git
 
-## Further help
+   ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+2. **Navigate to the Project Directory**:
+
+   ```bash
+   cd home-accounting-app
+
+   ```
+
+3. **Install Dependencies**:
+
+   ```bash
+   npm install
+
+   ```
+
+4. **To run the project in your browser**:
+
+Run the following command to start both the frontend and the backend:
+
+```bash
+npm run start
+
+```
+
+## Folder Structure
+
+The project follows a standard folder structure for better organization:
+
+```
+src/
+├── app/
+│   ├── auth/          # Authentication logic
+│   ├── config/        # App configuration
+│   ├── guards/        # Route protection
+│   ├── layout/        # Shared layout components (e.g., header, footer)
+│   ├── pages/         # Application pages 
+│   ├── services/      # Reusable services
+│   ├── app.component.*  # Root component files
+│   ├── app.config.ts     # App configuration providers
+│   └── app.routes.ts     # Application routes
+├── environments/       # Environment-specific settings
+├── styles/             # Global styles
+├── index.html          # Entry point
+├── main.ts             # Main application file
+├── styles.scss         # Main styles
+
+```
