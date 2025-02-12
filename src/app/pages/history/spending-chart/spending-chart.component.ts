@@ -16,6 +16,7 @@ export class SpendingChartComponent implements OnInit {
   public updateFlag = false;
   public Highcharts: typeof Highcharts = Highcharts;
   public chartOptions: Highcharts.Options = chartOptions;
+  public isChartEmpty: boolean = false;
 
   private historyService = inject(HistoryService);
   private destroyRef = inject(DestroyRef);
@@ -33,6 +34,7 @@ export class SpendingChartComponent implements OnInit {
             },
           ];
           this.updateFlag = true;
+          this.isChartEmpty = chartData?.length > 0;
         },
         error: (err) => console.error('Error fetching chart data', err),
       });
